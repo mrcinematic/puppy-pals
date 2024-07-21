@@ -1,42 +1,36 @@
-import { useState } from "react";
+import {useState} from "react";
+import "./App.css";
+import { puppyList} from "./data";
 
-// Write your Color component here
-const Color = ({color, setSelectedColor, selectedColor}) => {
+function App() {
+  const [puppies, setPuppies] = useState(puppyList);
+  const [featPupId, setFeatPupId] = useState(null);
+  const featuredPup = puppies.find((puppy) => puppy.id === featPupId);
+  console.log(featuredPup);
   return (
-    <div 
-      className={`${color} ${selectedColor === color ? "selected" : ""}`} 
-      onClick={() => setSelectedColor(color)}
-    ></div>
+    <>
+      {featPupId && (
+        <div>
+          <h2>{featuredPup.name}</h2>
+          <ul>
+            <li>Age: {featuredPup.age}</li>
+            <li>Email: {featuredPup.email}</li>
+          </ul>
+        </div>
+      )}
+      {puppies.map((puppy) => (
+        <p 
+          key={puppy.id} 
+          onClick={() => {
+            setFeatPupId(puppy.id);
+          }}
+        >
+          {puppy.name}
+        </p>
+      ))}
+    </>
   );
-};
-
-const App = () => {
-  const [selectedColor, setSelectedColor] = useState ("");
-  return (
-    <div id="container">
-      <div id="navbar">
-        <div>Currently selected: </div>
-        <div className={selectedColor}>{selectedColor}</div>
-      </div>
-      <div id="colors-list">
-        <Color 
-          color="red" 
-          setSelectedColor={setSelectedColor} 
-          selectedColor={selectedColor}
-        />
-        <Color 
-          color="green" 
-          setSelectedColor={setSelectedColor} 
-          selectedColor={selectedColor}
-        />
-        <Color 
-          color="blue" 
-          setSelectedColor={setSelectedColor} 
-          selectedColor={selectedColor}
-        />
-      </div>
-    </div>
-  );
-};
+}
 
 export default App;
+
